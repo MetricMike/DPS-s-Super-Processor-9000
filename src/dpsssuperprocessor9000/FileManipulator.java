@@ -3,21 +3,24 @@ package dpsssuperprocessor9000;
 import java.io.*;
 
 /**
- * Digital Production Services' Super Processor 9000
- * @version 2010.0623
+ * @desc   Contains some common code to make file handling easier.
  * @author Michael Weigle <michael.weigle@gmail.com>
  */
-public class Main
+public class FileManipulator
 {
-    /**
-     * @param args the command line arguments (none currently supported)
-     */
-    public static void main( String[] args )
-    {
-        String firstFileName = getFileName( "first" );
-        String lastFileName = getFileName( "last" );
+    private String firstAbsName;
+    private String lastAbsName;
 
-        // Tokenize into relevant fields
+    private String absPath;
+    private String numWidth;
+    private String fileType;
+
+    public FileManipulator()
+    {
+        firstAbsName = getFileName( "first" );
+        lastAbsName = getFileName( "last" );
+
+        Tokenize();
     }
 
     /**
@@ -46,4 +49,11 @@ public class Main
         return targetName;
     }
 
+    /**
+     * Splits a given file up to fill the absPath, numWidth, and fileType variables.
+     */
+    private void Tokenize()
+    {
+        throw new UnsupportedOperationException( "Not yet implemented" );
+    }
 }
