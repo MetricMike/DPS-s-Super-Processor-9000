@@ -125,8 +125,8 @@ public class FileManipulator
             }
             else
             {
-                absCurrFile = null;
-                relCurrFile = null;
+                absCurrFile = absPath + filePrefix + "." + fileType;
+                relCurrFile = filePrefix + "." + fileType;
             }
 
             if( !j.initInStream( this ) )
