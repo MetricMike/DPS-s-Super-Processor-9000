@@ -108,7 +108,12 @@ public class FileManipulator
         filePrefix = firstAbsName.substring( firstAbsName.lastIndexOf( "\\" ) + 1, numDot );
     }
 
-    private void processLoop( Job j )
+    /**
+     * Runs a loop around the files indicated by the user according to the passed Job.
+     * 
+     * @param j an object conforming to the Job Interface which manipulates a single file
+     */
+    public void processLoop( Job j )
     {
         for( int i = numStart; i <= numEnd; i++ )
         {
