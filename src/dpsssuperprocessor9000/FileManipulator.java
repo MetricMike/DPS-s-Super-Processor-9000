@@ -11,15 +11,26 @@ public class FileManipulator
     private String firstAbsName = null;
     private String absPath = null;
     private String fileType = null;
+    private String filePrefix = null;
+
     private int numStart = 0;
     private int numEnd = 0;
     private int numWidth = 0;
+
+    private String realNum = null;
+    private String absCurrFile = null;
+    private String relCurrFile = null;
+
+    private File inFile = null;
+    private Reader currReader = null;
+    private File outFile = null;
+    private Writer currWriter = null;
 
     public FileManipulator()
     {
         firstAbsName = requestInfo( "the absolute filename for the first file" );
         absPath = firstAbsName.substring( 0, firstAbsName.lastIndexOf( '\\' ) );
-        getNumAndType();
+        tokenize();
     }
 
     /**
@@ -49,11 +60,11 @@ public class FileManipulator
     }
 
     /**
-     * Detects fileType, numStart, numEnd, and numWidth if applicable.
+     * Detects filePrefix, fileType, numStart, numEnd, and numWidth if applicable.
      *
      * @throws UnsupportedOperationException if called on a filetype other than TIF, PSD, JPG, JP2, TXT, or XML
      */
-    private void getNumAndType()
+    private void tokenize()
     {
         int typeDot = firstAbsName.lastIndexOf( '.' );
 
@@ -87,12 +98,52 @@ public class FileManipulator
             }
             catch( NumberFormatException nfe )
             {
-                System.out.println( "Number Format Exception - a non-number was entered." );
+                System.err.println( "Number Format Exception - a non-number was entered." );
             }
         }
 
         if( numWidth == 0 )
             numWidth = typeDot - numDot - 1;
+
+        filePrefix = firstAbsName.substring( firstAbsName.lastIndexOf( "\\" ) + 1, numDot );
     }
 
+    private void processLoop( Job j )
+    {
+        for( int i = numStart; i <= numEnd; i++ )
+        {
+            if( i != -1 )
+            {
+                realNum = String.format( "%0" + numWidth + "d", i );
+                absCurrFile = absPath + filePrefix + "." + realNum + fileType;
+                relCurrFile = filePrefix + "." + realNum + fileType;
+            }
+            else
+            {
+                absCurrFile = null;
+                relCurrFile = null;
+            }
+
+            if( !j.initInStream( this ) )
+            {
+                System.err.println( "Error initializing inputstream for " + relCurrFile );
+                continue;
+            }
+
+            if( !j.initOutStream( this ) )
+            {
+                System.err.println( "Error initializing outputstream for " + relCurrFile );
+                continue;
+            }
+
+            if( !j.process( this ) )
+            {
+                System.err.println( "Error processing " + relCurrFile );
+                continue;
+            }
+
+        }
+
+        System.out.println( "Job finished" );
+    }
 }
