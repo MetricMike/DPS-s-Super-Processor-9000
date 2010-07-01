@@ -1,4 +1,3 @@
-
 package dpsssuperprocessor9000;
 
 import java.io.*;
@@ -13,15 +12,12 @@ public class FileManipulator
     private String absPath = null;
     private String fileType = null;
     private String filePrefix = null;
-
     private int numStart = 0;
     private int numEnd = 0;
     private int numWidth = 0;
-
     private String realNum = null;
     private String absCurrFile = null;
     private String relCurrFile = null;
-
     private File inFile = null;
     private Reader currReader = null;
     private File outFile = null;
@@ -152,4 +148,5 @@ public class FileManipulator
 
         System.out.println( "Job finished" );
     }
+
 }

@@ -1,4 +1,3 @@
-
 package dpsssuperprocessor9000;
 
 /**
@@ -27,7 +26,7 @@ public interface Job
      * @return true if success, false is failure
      */
     boolean initInStream( FileManipulator handler );
-    
+
     /**
      * Initializes an output stream according to what's needed. Assumes TXT
      * files are windows-1252 encoded, XML files are UTF-8 encoded, and other
@@ -37,4 +36,5 @@ public interface Job
      * @return true if success, false is failure
      */
     boolean initOutStream( FileManipulator handler );
+
 }
