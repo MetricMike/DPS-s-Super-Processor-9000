@@ -10,18 +10,18 @@ public class FileManipulator
 {
     private String firstAbsName = null;
     private String absPath = null;
-    private String fileType = null;
+    public String fileType = null;
     private String filePrefix = null;
     private int numStart = 0;
     private int numEnd = 0;
     private int numWidth = 0;
     private String realNum = null;
-    private String absCurrFile = null;
-    private String relCurrFile = null;
-    private File inFile = null;
-    private Reader currReader = null;
-    private File outFile = null;
-    private Writer currWriter = null;
+    public String absCurrFile = null;
+    public String relCurrFile = null;
+    public File inFile = null;
+    public BufferedReader currReader = null;
+    public File outFile = null;
+    public BufferedWriter currWriter = null;
 
     public FileManipulator()
     {
@@ -38,7 +38,7 @@ public class FileManipulator
      */
     private static String requestInfo( String target )
     {
-        System.out.println( "Please enter " + target + " :" );
+        System.out.println( "Please enter " + target + ":" );
 
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
         String targetName = null;
@@ -85,6 +85,7 @@ public class FileManipulator
             numStart = -1;
             numEnd = -1;
             numWidth = -1;
+            numDot = typeDot;
         }
 
         while( numEnd == 0 )
@@ -117,12 +118,12 @@ public class FileManipulator
             if( i != -1 )
             {
                 realNum = String.format( "%0" + numWidth + "d", i );
-                absCurrFile = absPath + filePrefix + "." + realNum + fileType;
+                absCurrFile = absPath + "\\" + filePrefix + "." + realNum + fileType;
                 relCurrFile = filePrefix + "." + realNum + fileType;
             }
             else
             {
-                absCurrFile = absPath + filePrefix + "." + fileType;
+                absCurrFile = absPath + "\\" + filePrefix + "." + fileType;
                 relCurrFile = filePrefix + "." + fileType;
             }
 
@@ -146,7 +147,6 @@ public class FileManipulator
 
         }
 
-        System.out.println( "Job finished" );
     }
 
 }

@@ -13,7 +13,7 @@ public interface Job
      * file types are binary encoded.
      * 
      * @param handler the FileManipulator instance containing token information
-     * @return true if success, false is failure
+     * @return true if success, false if failure
      */
     boolean process( FileManipulator handler );
 
@@ -23,7 +23,7 @@ public interface Job
      * types are binary encoded.
      *
      * @param handler the FileManipulator instance containing token information
-     * @return true if success, false is failure
+     * @return true if success, false if failure
      */
     boolean initInStream( FileManipulator handler );
 
@@ -33,8 +33,17 @@ public interface Job
      * file types are binary encoded.
      * 
      * @param handler the FileManipulator instance containing token information
-     * @return true if success, false is failure
+     * @return true if success, false if failure
      */
     boolean initOutStream( FileManipulator handler );
+    
+    /**
+     * Prints a string to the output stream.
+     *
+     * @param handler the FileManipulator instance containing token information
+     * @return true if success, false if failure
+     */
+    boolean print( String fileAsString, FileManipulator handler );
+
 
 }

@@ -13,6 +13,9 @@ public class Main
     public static void main( String[] args )
     {
         FileManipulator handler = new FileManipulator();
+        handler.processLoop( new persNameInsertJob() );
+
+        System.out.println( "Job completed." );
     }
 
 }
