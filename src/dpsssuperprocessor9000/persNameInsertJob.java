@@ -248,6 +248,23 @@ public class persNameInsertJob implements Job
                             moreToName = false;
                         }
                     }
+                    else if( currLine.charAt( nameEnd ) == ',' )
+                    {
+                        if( Character.isUpperCase( currLine.charAt( nameEnd + 2 ) ) )
+                        {
+                            currLine = insertTag( currLine, nameStart, nameEnd );
+                            nameStart = nameEnd + 21 + 2;
+                            nameEnd = nameStart;
+                        }
+                        else if( ( nameEnd + 1 ) == currLine.indexOf( " and ", nameStart ) )
+                        {
+                            currLine = insertTag( currLine, nameStart, nameEnd );
+                            nameStart = nameEnd + 21 + 5;
+                            nameEnd = nameStart;
+                        }
+                        else
+                            moreToName = false;
+                    }
                     else if( Character.isLowerCase( currLine.charAt( nameEnd ) ) )
                     {
                         if( Character.isUpperCase( currLine.charAt( nameEnd + 1 ) ) )
@@ -262,23 +279,32 @@ public class persNameInsertJob implements Job
                         nameEnd++;
                     else if( currLine.charAt( nameEnd ) == ' ' )
                     {
-                        if( nameEnd == currLine.indexOf( " and " ) )
+                        if( nameEnd == currLine.indexOf( " and ", nameStart ) )
                         {
                             currLine = insertTag( currLine, nameStart, nameEnd );
+                            nameStart = nameEnd + 21 + 5;
+                            nameEnd = nameStart;
+                        }
+                        else if( nameEnd == currLine.indexOf( " of ", nameStart ) )
+                        {
+                            currLine = insertTag( currLine, nameStart, nameEnd );
+                            nameStart = currLine.indexOf( ", ", nameEnd ) + 2;
 
-                            nameStart = nameEnd + 21;
-                            nameEnd = nameStart + 5;
+                            if( nameStart == currLine.indexOf( "and ", nameEnd ) )
+                                nameStart = nameStart + 4;
+
+                            nameEnd = nameStart;
                         }
                         else if( Character.isUpperCase( currLine.charAt( nameEnd + 1 ) ) )
                             nameEnd++;
                         else
                             moreToName = false;
                     }
-                    else // Is anything other than a letter, ' ', or '.'
+                    else // Is anything other than a letter, ' ', ',', or '.'
                         moreToName = false;
                 }
 
-                if( nameEnd > nameStart + 8 ) // If nameEnd has been extended
+                if( nameEnd > nameStart ) // If nameEnd has been extended
                 {
                     currLine = insertTag( currLine, nameStart, nameEnd );
                     nameEnd = nameEnd + 21;

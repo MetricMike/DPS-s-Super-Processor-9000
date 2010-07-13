@@ -2,7 +2,7 @@ package dpsssuperprocessor9000;
 
 /**
  * Digital Production Services' Super Processor 9000
- * @version 2010.0624
+ * @version 2010.0713
  * @author Michael Weigle <michael.weigle@gmail.com>
  */
 public class Main
