@@ -21,6 +21,7 @@ public class persNameInsertJob implements Job
             {
                 currLine = findMister( currLine );
                 currLine = findMessrs( currLine );
+                currLine = findPresident( currLine );
                 fileAsString.append( currLine ).append( "\n" );
             }
         }
@@ -176,15 +177,8 @@ public class persNameInsertJob implements Job
 
                 if( nameEnd > nameStart + 4 ) // If nameEnd has been extended
                 {
-                    StringBuilder tmpString = new StringBuilder( currLine );
-
-                    tmpString.insert( nameStart, "<persName>" );
-                    nameEnd = nameEnd + 10;
-
-                    tmpString.insert( nameEnd, "</persName>" );
-                    nameEnd = nameEnd + 11;
-
-                    currLine = tmpString.toString();
+                    currLine = insertTag( currLine, nameStart, nameEnd );
+                    nameEnd = nameEnd + 21;
                 }
 
                 currLine = findMister( nameEnd, currLine );
@@ -318,6 +312,52 @@ public class persNameInsertJob implements Job
         return currLine;
     }
 
+    /**
+     * Calls findPresident() at the beginning of the String.
+     *
+     * @param currLine the String to search
+     * @return the modified (if necessary) searched String
+     */
+    private String findPresident( String currLine )
+    {
+        return findPresident( 0, currLine );
+    }
+    
+    /**
+     * Searches a line for instances of "The PRESIDENT" and places <persName>
+     * tags around it.
+     *
+     * @param startIndex an int representing where to begin
+     * @param currLine the String to search
+     * @return the modified (if necessary) searched String
+     */
+    private String findPresident( int startIndex, String currLine )
+    {
+        if( (startIndex >= 0) && (startIndex < currLine.length()) )
+        {
+            int nameStart = currLine.indexOf( "The PRESIDENT", startIndex );
+
+            if( nameStart != -1 )
+            {
+                int nameEnd = nameStart + 13;
+                currLine = insertTag( currLine, nameStart, nameEnd );
+                nameEnd = nameEnd + 21;
+                currLine = findPresident( nameEnd, currLine );
+            }
+
+        }
+
+        return currLine;
+    }
+
+    /**
+     * Inserts opening and closing <persName> tags into the string.
+     *
+     * @param currLine the string to insert <persName> tags into
+     * @param nameStart an int describing where to insert the opening tag
+     * @param nameEnd an int describing where to insert the closing tag
+     * @return currLine with the <persName> tags inserted
+     */
     private String insertTag( String currLine, int nameStart, int nameEnd )
     {
         StringBuilder tmpString = new StringBuilder( currLine );
