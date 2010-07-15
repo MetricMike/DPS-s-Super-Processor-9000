@@ -10,7 +10,10 @@ import java.nio.charset.Charset;
  */
 public class speakerInsertJob implements Job
 {
-    private String[] delimiters = { "\t", "said:", "said :", "-", " -", "&#x2014;", " &#x2014;" };
+    private String[] delimiters =
+    {
+        "\t", "said:", "said :", "-", " -", "&#x2014;", " &#x2014;"
+    };
 
     @Override
     public boolean process( FileManipulator handler )
@@ -20,10 +23,10 @@ public class speakerInsertJob implements Job
 
         try
         {
-            while( ( currLine = handler.currReader.readLine() ) != null )
+            while( (currLine = handler.currReader.readLine()) != null )
             {
                 currLine = findSpeakers( currLine );
-                fileAsString.append( currLine ).append(  "\n" );
+                fileAsString.append( currLine ).append( "\n" );
             }
         }
         catch( IOException ioe )
@@ -122,7 +125,7 @@ public class speakerInsertJob implements Job
      */
     private String findSpeakers( int startIndex, String currLine )
     {
-        if( ( startIndex >= 0 ) && ( startIndex < currLine.length() ) )
+        if( (startIndex >= 0) && (startIndex < currLine.length()) )
         {
             int[] positions = new int[3];
             positions = findIndices( currLine, positions );
@@ -160,7 +163,9 @@ public class speakerInsertJob implements Job
     private int[] incrementPositions( int[] positions, int increment )
     {
         for( int i = 0; i < positions.length; i++ )
+        {
             positions[i] += increment;
+        }
 
         return positions;
     }
@@ -188,20 +193,30 @@ public class speakerInsertJob implements Job
             positions[1] = currLine.indexOf( "</persName>" ) + 11;
             int tmpUpBound = currLine.indexOf( "<persName>", positions[1] );
 
-            for( String delimiter: delimiters )
+            for( String delimiter : delimiters )
             {
                 int tmpInt = currLine.indexOf( delimiter, positions[1] );
 
                 if( tmpInt != -1 )
                 {
                     if( tmpUpBound != -1 && tmpInt < tmpUpBound )
+                    {
                         positions[2] = tmpInt + delimiter.length();
-                    else if( tmpUpBound == -1 )
-                        positions[2] = tmpInt + delimiter.length();
-                    else // tmpUpBound != -1 && tmpInt >= tmpUpBound)
                         break;
+                    }
+                    else if( tmpUpBound == -1 )
+                    {
+                        positions[2] = tmpInt + delimiter.length();
+                        break;
+                    }
+                    else // tmpUpBound != -1 && tmpInt >= tmpUpBound)
+                    {
+                        positions[2] = -1;
+                        break;
+                    }
                 }
-
+                else
+                    positions[2] = -1;
             }
 
         }
