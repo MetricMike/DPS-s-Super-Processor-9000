@@ -124,7 +124,7 @@ public class speakerInsertJob implements Job
     {
         if( ( startIndex >= 0 ) && ( startIndex < currLine.length() ) )
         {
-            int[] positions = new int[2];
+            int[] positions = new int[3];
             positions = findIndices( currLine, positions );
 
             if( positions[2] != -1 )
@@ -178,23 +178,30 @@ public class speakerInsertJob implements Job
     {
         positions[0] = currLine.indexOf( "<persName>" );
 
-        if( positions[0] != -1 )
-            positions[1] = currLine.indexOf( "</persName>" ) + 11;
-        else // positions[0] == -1
-            positions[1] = -1;
-
-        int tmpUpBound = currLine.indexOf( "<persName>", positions[1] );
-
-        for( String delimiter: delimiters )
+        if( positions[0] == -1 )
         {
-            int tmpInt = currLine.indexOf( delimiter, positions[1] );
+            positions[1] = -1;
+            positions[2] = -1;
+        }
+        else // positions[0] != -1
+        {
+            positions[1] = currLine.indexOf( "</persName>" ) + 11;
+            int tmpUpBound = currLine.indexOf( "<persName>", positions[1] );
 
-            if( tmpInt >= tmpUpBound || tmpInt == -1 )
-                positions[2] = -1;
-            else // (tmpInt < tmpUpBound) && (tmpInt =! -1)
+            for( String delimiter: delimiters )
             {
-                positions[2] = tmpInt + delimiter.length();
-                break;
+                int tmpInt = currLine.indexOf( delimiter, positions[1] );
+
+                if( tmpInt != -1 )
+                {
+                    if( tmpUpBound != -1 && tmpInt < tmpUpBound )
+                        positions[2] = tmpInt + delimiter.length();
+                    else if( tmpUpBound == -1 )
+                        positions[2] = tmpInt + delimiter.length();
+                    else // tmpUpBound != -1 && tmpInt >= tmpUpBound)
+                        break;
+                }
+
             }
 
         }
