@@ -12,7 +12,7 @@ public class speakerInsertJob implements Job
 {
     private String[] delimiters =
     {
-        "\t", "said:", "said :", "-", " -", "&#x2014;", " &#x2014;"
+        "\t", "said:", "said :", "said,", "said ,", "-", " -", "&#x2014;"
     };
 
     @Override
