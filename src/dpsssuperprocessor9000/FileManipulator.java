@@ -9,11 +9,12 @@ import java.io.*;
 public class FileManipulator
 {
     private String firstAbsName = null;
-    private String absPath = null;
+    public String absPath = null;
     public String fileType = null;
-    private String filePrefix = null;
-    private int numStart = 0;
-    private int numEnd = 0;
+    public String filePrefix = null;
+    public int numStart = 0;
+    public int numEnd = 0;
+    public int numCurr = 0;
     private int numWidth = 0;
     private String realNum = null;
     public String absCurrFile = null;
@@ -113,11 +114,11 @@ public class FileManipulator
      */
     public void processLoop( Job j )
     {
-        for( int i = numStart; i <= numEnd; i++ )
+        for( numCurr = numStart; numCurr <= numEnd; numCurr++ )
         {
-            if( i != -1 )
+            if( numCurr != -1 )
             {
-                realNum = String.format( "%0" + numWidth + "d", i );
+                realNum = String.format( "%0" + numWidth + "d", numCurr );
                 absCurrFile = absPath + "\\" + filePrefix + "." + realNum + fileType;
                 relCurrFile = filePrefix + "." + realNum + fileType;
             }
